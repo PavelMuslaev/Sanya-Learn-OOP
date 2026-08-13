@@ -70,13 +70,24 @@ self - это некий конкретный экземпляр класса,
         «является» специализацией другого класса. (Всё в Python наследуется от класса object);
     2) АБСТРАКЦИЯ - это "чертёж" или "шаблон" для других классов.
         Он описывает что должно быть сделано, но не как это делать.
-    3) ИНКАПСУЛЯЦИЯ;
+    3) ИНКАПСУЛЯЦИЯ в Python - это принцип, при котором данные (переменные) 
+        и методы (функции), работающие с этими данными, 
+        объединяются в единый компонент - класс. 
+        При этом доступ к внутренней реализации
+        объекта ограничивается снаружи.
+        Инкапсуляция - это скрытие реализации, за удобным интерфейсом.
+        Пользователю не надо знать, как работает пульт, чтобы пользоваться
+            пультом.
     4) ПОЛИМОРФИЗМ.
 
 
     Python использует MRO (Method Resolution Order) (Порядок разрешения метода) -
     специальный порядок поиска методов, чтобы не было конфликтов "чей метод вызывать,
     если у родителей есть одинаковые методы".
+
+
+
+
 """
 
 class Dog:
@@ -571,3 +582,80 @@ print(vec3)
 
 
 print(vec1 == vec2)
+print("\n\n")
+
+
+# УРОВНИ ДОСТУПА
+"""
+1) без префикса — публичный (public), доступен отовсюду; 
+2) одно подчеркивание — защищенный (protected),
+    не следует использовать вне класса и его подклассов;
+3) двойное подчеркивание — приватный (private),
+    не следует использовать вне класса.
+"""
+
+class User: # ПУБЛИЧНЫЙ ЮЗЕР
+    def __init__(self, login, password):
+        self.login = login
+        self.password = password
+
+
+user1 = User("PavelCool", "super_secret_password")
+print(user1.login)
+print(user1.password)
+print("\n\n")
+
+
+class User: # ЗАЩИЩЕННЫЙ ЮЗЕР
+    def __init__(self, login, password):
+        self._login = login         # защищенный арибут
+        self._password = password   # защищенный арибут
+
+class SuperUser(User):
+    def __init__(self, login, password, super_key):
+        super().__init__(login, password)
+        self._super_key = super_key # защищенный арибут
+
+    def __str__(self) -> str:
+        return f"Имя: {self._login}, Ключ: {self._super_key}"
+
+    
+user1 = User("PavelCool", "super_secret_password")
+print(user1._login)
+print(user1._password)
+print(user1.__dict__)
+print("\n\n")
+
+class User: # ПРИВАТНЫЙ ЮЗЕР
+    def __init__(self, login, password):
+        self.__login = login         # приватный арибут
+        self.__password = password   # приватный арибут
+
+class SuperUser(User):
+    def __init__(self, login, password, super_key):
+        super().__init__(login, password)
+        self._super_key = super_key # защищенный арибут
+
+    def __str__(self) -> str:
+        return f"Ключ: {self._super_key}"
+
+    
+user1 = User("PavelCool", "super_secret_password")
+print(user1._User__login)
+print(user1._User__password)
+print(user1.__dict__)
+print("\n\n")
+
+
+# ИНКАПСУЛЯЦИЯ
+class User:
+    def __init__(self, login, password):
+        self.login = login
+        self.password = password
+
+
+
+
+
+
+
