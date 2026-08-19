@@ -650,12 +650,45 @@ print("\n\n")
 # ИНКАПСУЛЯЦИЯ
 class User:
     def __init__(self, login, password):
-        self.login = login
+        self.login = login          # 
         self.password = password
 
+    @property
+    def login(self) -> str:
+        return self._login
+
+    @login.setter
+    def login(self, new_login: str) -> None:
+        if not isinstance(new_login, str):
+            print("Логин должен быть строкой")
+            return
+        if len(new_login.strip()) < 4:
+            print("Длина логина должна быть больше 4")
+            return
+        
+        self._login = new_login.strip()
+
+    @property
+    def password(self) -> str:
+        return self._password
+    @password.setter
+    def password(self, new_password) -> None:
+        if not isinstance(new_password, str):
+            print("Пароль должен быть строкой")
+            return
+        if len(new_password.strip()) < 4:
+            print("Длина пароля должна быть больше 4")
+            return
+        self._password = new_password.strip()
 
 
+user1 = User("pavel", "supersecret_password")
+print(user1.login)
+user1.login = " pa "
+print(user1.login)
 
+print(user1._login)
+print(user1.login)
 
-
-
+user1._login = " pa "
+print(user1.password)
