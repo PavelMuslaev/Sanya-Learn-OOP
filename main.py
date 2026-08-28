@@ -78,15 +78,18 @@ self - это некий конкретный экземпляр класса,
         Инкапсуляция - это скрытие реализации, за удобным интерфейсом.
         Пользователю не надо знать, как работает пульт, чтобы пользоваться
             пультом.
-    4) ПОЛИМОРФИЗМ.
+
+    4) ПОЛИМОРФИЗМ — позволяет одному и тому же коду работать с объектами разных типов, 
+        и в зависимости от типа объекта метод выполняет разную логику. 
+        Проще говоря: вы вызываете один и тот же метод для разных объектов, и каждый из них «отвечает» по-своему. 
+        
+        Полиморфизм - это способность объектов разных классов реагировать на одинаковые методы или операции по-разному.
+        В переводе с греческого "полиморфизм" означает "много форм".
 
 
     Python использует MRO (Method Resolution Order) (Порядок разрешения метода) -
     специальный порядок поиска методов, чтобы не было конфликтов "чей метод вызывать,
     если у родителей есть одинаковые методы".
-
-
-
 
 """
 
@@ -671,6 +674,7 @@ class User:
     @property
     def password(self) -> str:
         return self._password
+    
     @password.setter
     def password(self, new_password) -> None:
         if not isinstance(new_password, str):
@@ -692,3 +696,150 @@ print(user1.login)
 
 user1._login = " pa "
 print(user1.password)
+print("\n\n")
+
+
+
+
+
+# Полиморфизм
+# ВСТРОЕННЫЙ ПОЛИМОРФИЗМ
+def add(a, b):
+    return a + b
+
+print(add(1, 2))
+print(add('Hello ', 'world!'))
+
+print(len([1, 2, 3, 4, 5]))
+print(len('Павел'))
+print(len((1, 2, 3, 4, 5)))
+print("\n\n")
+
+# ПОЛИМОРФИЗМ ПРИ НАСЛЕДОВАНИИ
+from abc import ABC, abstractmethod
+
+class Animal(ABC):
+    def __init__(self, name):
+        self.name = name
+
+    @abstractmethod
+    def speak(self):
+        pass
+
+    def info(self):
+        return f"Имя: {self.name}, звук: {self.speak()}"
+
+class Dog(Animal):
+    def speak(self):
+        return "Гав!"
+
+class Cat(Animal):
+    def speak(self):
+        return 'Мяу!'
+
+
+
+
+
+
+import math
+from abc import ABC, abstractmethod
+
+class Shape(ABC):
+    @abstractmethod
+    def area(self):
+        pass
+
+    @abstractmethod
+    def perimeter(self):
+        pass
+
+    def info(self):
+        return f'Площадь: {self.area()}, периметр: {self.perimeter()}.'
+
+class Rectangle(Shape):
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+
+    def area(self):
+        return self.width * self.height
+
+    def perimeter(self):
+        return 2 * (self.width + self.height)
+
+class Circle(Shape):
+    def __init__(self, radius):
+        self.radius = radius
+
+    def area(self):
+        return math.pi * (self.radius ** 2)
+
+    def perimeter(self):
+        return 2 * math.pi * self.radius
+
+shapes = [Rectangle(10, 2), Circle(8)]
+
+print('\n'.join(shape.info() for shape in shapes))
+print("\n\n")
+
+
+
+# ПРИНЦИП УТКИ
+"""
+    Утиная типизация (принцип утки) - это правило Python, которое звучит так – 
+    «Если что-то движется и говорит как утка, значит, это утка». 
+    Теперь, рассмотрим следующий пример:
+"""
+class Duck:
+    def eat(self):
+        return 'Утка кушает.'
+
+    def speak(self):
+        return 'Кря!'
+
+class Horse:
+    def eat(self):
+        return 'Лошадь ест.'
+
+    def speak(self):
+        return 'Звук лошади!'
+
+class Fish:
+    def swim(self):
+        return 'Плыву'
+
+    def eat(self):
+        return 'Рыбка ест.'
+
+def handler_animal(animal) -> None:
+    """
+    Выводит информацию о животном.
+
+    :param animal: объект животного ОБЯЗАТЕЛЬНО 
+        animal.eat() и animal.speak()
+    """
+    print(f'Еда: {animal.eat()}')
+    print(f'Звук: {animal.speak()}')
+
+duck = Duck()
+horse = Horse()
+fish = Fish()
+
+handler_animal(duck)
+handler_animal(horse)
+# handler_animal(fish) # не сработает!
+
+
+
+# Пример из реальной жизни - обработка разных файлов
+class CSVReader:
+    def read(self):
+        return "Читаю CSV"
+
+class JSONReader:
+    def read(self):
+        return "Читаю JSON"
+
+def process_file(reader):
+    return reader.read()  # Единый интерфейс
