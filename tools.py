@@ -1,23 +1,25 @@
 """
-uv add black - форматировщик
-1) black команды:
-    black --help
-    black name_file (.)
+Инструменты проверки качества кода.
 
-uv add mypy - статический анализатор
-1) mypy команды:
-    mypy --help
-    mypy name_file (.)
+Установка зависимостей:
+    uv add black mypy pylint ruff
 
-uv add pylint - линтер (строгий анализатор)
-1) pylint команды:
-    pylint --help
-    pylint name_file (.)
+Black — форматировщик:
+    uv run black name_file.py
+    uv run black --check name_file.py
 
-uv add ruff (форматировщик + линтер)
-1) ruff команды:
-    ruff --help
-    ruff name_file (.)
+Ruff — быстрый линтер:
+    uv run ruff check name_file.py
+
+Pylint — строгий анализатор качества:
+    uv run pylint name_file.py
+
+mypy — статический анализатор аннотаций типов:
+    uv run mypy name_file.py
+
+В домашних заданиях вместо name_file.py указывай только модуль,
+который разрабатываешь в текущей задаче. Не используй ".", "*.py"
+и не запускай инструменты для остальных учебных модулей.
 """
 
 
