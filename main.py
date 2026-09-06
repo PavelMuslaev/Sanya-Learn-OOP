@@ -407,7 +407,7 @@ class Shape(ABC):
     def perimeter(self) -> float:
         pass
 
-    def info() -> str:
+    def info(self) -> str:
         return "This is Shape!"
 
 
