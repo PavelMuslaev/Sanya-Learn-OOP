@@ -851,3 +851,140 @@ class JSONReader:
 
 def process_file(reader):
     return reader.read()  # Единый интерфейс
+
+print("\n\n")
+
+
+# КАК СОЗДАТЬ БЕСКОНЕЧНОСТЬ В PYTHON
+num = float("inf")
+num = float("-inf")
+print(num)
+print()
+
+# ОТЛИЧИЯ __str__ от __repr__
+class User:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def __str__(self):
+        """
+            ДЛЯ ПОЛЬЗОВАТЕЛЬСКОГО ВЫВОДА!
+        """
+        return f"Пользователь: {self.name}."
+
+    def __repr__(self):
+        """
+            БОЛЕЕ ПОДРОБНЫЙ ОТЧЁТ ОБ ОБЪЕКТЕ!
+            ПОЗВОЛЯЕТ ВОССОЗДАТЬ ЭТОТ ОБЪЕКТ
+        """
+        return f"User({self.name!r}, {self.age!r})"
+
+user = User("Денис", 20) 
+print(str(user)) # Пользователь: Денис.
+print(user)      # Пользователь: Денис.
+print(f"Пользователь: {user}") # Пользователь: Пользователь: Денис.
+print()
+
+# КАК ВЫВОДИТ ИНФОРМАЦИЮ REPR: 
+print(repr(user)) # User('Денис', 20)
+print()
+
+test = "Бла-бла"
+print(repr(test))
+
+"""
+Исключения - это события, нарушающие нормальный поток выполнения программы, 
+которые могут быть обработаны специальными конструкциями языка.
+
+Обработка исключений - это механизм управления ошибками, 
+возникающими во время выполнения программы.
+
+Ключевые блоки:
+•	try: Блок с кодом, где может произойти исключение.
+•	except: Ловит и обрабатывает конкретные или все исключения.
+•	else: Выполняется, если в try исключений не было.
+•	finally: Выполняется всегда, независимо от того, было исключение или нет.
+Часто используется для гарантированного освобождения ресурсов (например, закрытия файла).
+"""
+
+# ОБРАБОТКА ИСКЛЮЧЕНИЙ
+try:
+    print(10 / 0)
+except ZeroDivisionError:
+    print("Ну ты неправ! Делить на ноль нельзя!")
+print()
+
+
+# try:
+#     number1 = int(input("Enter a number: "))
+#     number2 = int(input("Enter another number: "))
+#     # num1, num2 = map(int, input("Enter a numbers: ").split())
+
+#     print(number1 / number2)
+# except ZeroDivisionError:
+#     print("You can't divide by zero")
+# except TypeError:
+#     print("You can't divide by alpha")
+# print()
+
+
+# try:
+#     number1 = int(input("Enter a number: "))
+#     number2 = int(input("Enter another number: "))
+    
+#     print(number1 / number2)
+# except (ZeroDivisionError, TypeError):
+#     print("Ошибка при делении")
+# print()
+
+try:
+    number = int('42')
+except ValueError:
+    print("Это не число")
+else:
+    # Этот блок выполнится, так как исключения не было
+    print(f"Успешно! Число: {number}")
+    print(f"Квадрат числа: {number ** 2}")
+finally:
+    print("THE END PROGRAMM")
+print()
+
+
+try:
+    f = open("example.txt", "w")
+    f.write("Привет, мир!")
+    # Предположим, здесь может произойти исключение
+except IOError:
+    print("Произошла ошибка ввода-вывода")
+finally:
+    print("Закрытие файла")
+    f.close()  # Файл будет закрыт в любом случае
+print()
+
+
+try:
+    print(10 / 0)
+except ZeroDivisionError as err:
+    # Псевдоним выводит информацию о возникшем исключении
+    print("Ну ты неправ! Делить на ноль нельзя!")
+    # print(ZeroDivisionError) # <class 'ZeroDivisionError'>
+    print(err) # division by zero
+print()
+
+
+
+
+try:
+    number1 = int(input("Enter a number: "))
+    number2 = int(input("Enter another number: "))
+    # num1, num2 = map(int, input("Enter a numbers: ").split())
+
+    print(number1 / number2)
+except ZeroDivisionError:
+    print("You can't divide by zero")
+except TypeError:
+    print("You can't divide by alpha")
+except Exception: # ОБЩИЕ ИСКЛЮЧЕНИЯ ДОЛЖНЫ БЫТЬ ПОСЛЕДНИМИ
+    print("Возникла ошибка!")
+print()
