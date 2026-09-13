@@ -34,3 +34,29 @@ class SbpPayment(PaymentMethod):
     def pay(self, amount: float) -> str:
         """Оплатить через СБП."""
         return f"Оплачено через СБП: {amount:.2f} руб."
+
+
+class GiftCertificate:
+    """Подарочный сертификат, совместимый по методу pay."""
+
+    def pay(self, amount: float) -> str:
+        """Оплатить сертификатом."""
+        return f"Оплачено подарочным сертификатом: {amount:.2f} руб."
+
+
+def process_payment(payment, amount: float) -> str:
+    """Обработать оплату через любой объект с методом pay()."""
+    return payment.pay(amount)
+
+
+if __name__ == "__main__":
+    payments: list = [
+        CardPayment(),
+        CashPayment(),
+        SbpPayment(),
+        GiftCertificate(),
+    ]
+
+    total = 1500.00
+    for payment in payments:
+        print(process_payment(payment, total))
