@@ -851,3 +851,242 @@ class JSONReader:
 
 def process_file(reader):
     return reader.read()  # Единый интерфейс
+
+print("\n\n")
+
+
+# КАК СОЗДАТЬ БЕСКОНЕЧНОСТЬ В PYTHON
+num = float("inf")
+num = float("-inf")
+print(num)
+print()
+
+# ОТЛИЧИЯ __str__ от __repr__
+class User:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def __str__(self):
+        """
+            ДЛЯ ПОЛЬЗОВАТЕЛЬСКОГО ВЫВОДА!
+        """
+        return f"Пользователь: {self.name}."
+
+    def __repr__(self):
+        """
+            БОЛЕЕ ПОДРОБНЫЙ ОТЧЁТ ОБ ОБЪЕКТЕ!
+            ПОЗВОЛЯЕТ ВОССОЗДАТЬ ЭТОТ ОБЪЕКТ
+        """
+        return f"User({self.name!r}, {self.age!r})"
+
+user = User("Денис", 20) 
+print(str(user)) # Пользователь: Денис.
+print(user)      # Пользователь: Денис.
+print(f"Пользователь: {user}") # Пользователь: Пользователь: Денис.
+print()
+
+# КАК ВЫВОДИТ ИНФОРМАЦИЮ REPR: 
+print(repr(user)) # User('Денис', 20)
+print()
+
+test = "Бла-бла"
+print(repr(test))
+
+"""
+Исключения - это события, нарушающие нормальный поток выполнения программы, 
+которые могут быть обработаны специальными конструкциями языка.
+
+Обработка исключений - это механизм управления ошибками, 
+возникающими во время выполнения программы.
+
+Ключевые блоки:
+•	try: Блок с кодом, где может произойти исключение.
+•	except: Ловит и обрабатывает конкретные или все исключения.
+•	else: Выполняется, если в try исключений не было.
+•	finally: Выполняется всегда, независимо от того, было исключение или нет.
+Часто используется для гарантированного освобождения ресурсов (например, закрытия файла).
+"""
+
+# ОБРАБОТКА ИСКЛЮЧЕНИЙ
+try:
+    print(10 / 0)
+except ZeroDivisionError:
+    print("Ну ты неправ! Делить на ноль нельзя!")
+print()
+
+
+# try:
+#     number1 = int(input("Enter a number: "))
+#     number2 = int(input("Enter another number: "))
+#     # num1, num2 = map(int, input("Enter a numbers: ").split())
+
+#     print(number1 / number2)
+# except ZeroDivisionError:
+#     print("You can't divide by zero")
+# except TypeError:
+#     print("You can't divide by alpha")
+# print()
+
+
+# try:
+#     number1 = int(input("Enter a number: "))
+#     number2 = int(input("Enter another number: "))
+    
+#     print(number1 / number2)
+# except (ZeroDivisionError, TypeError):
+#     print("Ошибка при делении")
+# print()
+
+# try:
+#     number = int('42')
+# except ValueError:
+#     print("Это не число")
+# else:
+#     # Этот блок выполнится, так как исключения не было
+#     print(f"Успешно! Число: {number}")
+#     print(f"Квадрат числа: {number ** 2}")
+# finally:
+#     print("THE END PROGRAMM")
+# print()
+
+
+# try:
+#     f = open("example.txt", "w")
+#     f.write("Привет, мир!")
+#     # Предположим, здесь может произойти исключение
+# except IOError:
+#     print("Произошла ошибка ввода-вывода")
+# finally:
+#     print("Закрытие файла")
+#     f.close()  # Файл будет закрыт в любом случае
+# print()
+
+
+# try:
+#     print(10 / 0)
+# except ZeroDivisionError as err:
+#     # Псевдоним выводит информацию о возникшем исключении
+#     print("Ну ты неправ! Делить на ноль нельзя!")
+#     # print(ZeroDivisionError) # <class 'ZeroDivisionError'>
+#     print(err) # division by zero
+# print()
+
+
+
+
+# try:
+#     number1 = int(input("Enter a number: "))
+#     number2 = int(input("Enter another number: "))
+#     # num1, num2 = map(int, input("Enter a numbers: ").split())
+
+#     print(number1 / number2)
+# except ZeroDivisionError:
+#     print("You can't divide by zero")
+# except TypeError:
+#     print("You can't divide by alpha")
+# except Exception: # ОБЩИЕ ИСКЛЮЧЕНИЯ ДОЛЖНЫ БЫТЬ ПОСЛЕДНИМИ
+#     print("Возникла ошибка!")
+# print()
+
+
+
+
+
+def check_age(age):
+    if age < 0:
+        raise ValueError("Возраст не может быть отрицательным")
+    if age > 150:
+        raise KeyError("Слишком большой возраст")
+    return f"Возраст: {age} лет"
+
+# Использование
+try:
+    res1 = check_age(25)  # OK
+    res2 = check_age(-5)  # Вызовет ValueError с сообщением 
+except ValueError:
+    print("Такой возраст это плохо!")
+else:
+    print(res1)
+    print(res2)
+finally:
+    print()
+
+
+
+class InvalidPhoneError(Exception):
+    """Исключение для некорректного номера телефона"""
+    pass
+
+def is_validate_phone(phone):
+    if not phone.startswith('+7'):
+        raise InvalidPhoneError("Телефон должен начинаться с +7")
+    if len(phone) != 12:
+        raise InvalidPhoneError("Длина номера должна быть 12 символов")
+    return True
+
+try:
+    # Использование
+    is_validate_phone("+79151234567")  # OK
+    is_validate_phone("89151234567")  # Вызовет InvalidPhoneError
+except InvalidPhoneError as e:
+    print(f"Ошибка валидации: {e}")
+
+
+
+
+
+def get_value_from_list(my_list, index):
+    try:
+        res = my_list[index]
+    except IndexError:
+        raise IndexError("Вы вышли за пределы списка")
+    else:
+        return res
+
+result = get_value_from_list([1, 2, 3], 1)
+print(f"Результат: {result}")
+
+result = get_value_from_list([1, 2, 3], 10)
+print(f"Результат: {result}")
+print()
+
+
+
+
+"""
+    ЕЩЕ НЕМНОГО ПРО ПОЛИМОРФИЗМ
+"""
+class CSVReader:
+    def read(self):
+        return "Читаю CSV"
+
+class JSONReader:
+    def read(self):
+        return "Читаю JSON"
+
+class TXTReader:
+    def read_file(self):
+        return "Читаю JSON"
+
+class TXTReaderAdapter(TXTReader):
+    def read(self):
+        r = TXTReader()
+        r.read_file()
+
+
+from typing import Protocol
+
+class ReaderProtocol(Protocol):
+    def read(self) -> str:
+        pass
+
+def process_file(reader: ReaderProtocol):
+    """
+    reader - это тот у кого есть метод read()
+    """
+    return reader.read()  # Единый интерфейс
+
+reader = TXTReaderAdapter()
+process_file(reader)
+
