@@ -51,8 +51,33 @@ user2 = User("Денис", "Лебедев", 22)
 print(user1) # User(name='Денис', surname='Лебедев', age=22)
 
 print(user1 == user2)
+print()
 
+from enum import StrEnum, IntEnum, Enum
 
+class CodeError(Enum):
+    FATAL = 12
+    BUG = 100
+
+class Device(StrEnum):
+    LAPTOP = "LAPTOP :)"
+    PHONE = "phone"
+
+print(Device.LAPTOP == "LAPTOP :)")
+
+month = 12
+
+match month:
+    case 12:
+        print(1)
+    case 11:
+        print(2)
+    case _:
+        print(3)
+
+user_code = 12
+if user_code == CodeError.FATAL:
+    pass
 
 
 
