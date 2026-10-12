@@ -80,6 +80,12 @@ if user_code == CodeError.FATAL:
     pass
 
 
+user = ("Павел", 22, "муж.")
 
+match user:
+    case name, age, "муж.":
+        print("aidjsaoj")
+    case _, _, "жен.":
+        print("aidjsaoj")
 
 
