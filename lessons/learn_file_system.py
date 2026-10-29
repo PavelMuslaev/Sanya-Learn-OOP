@@ -9,13 +9,28 @@
 """
 
 
-file1 = open("data/txt/example.txt", "w")
+from pathlib import Path
+
+
+# Пути привязаны к репозиторию, а не к рабочей папке запуска.
+PROJECT_DIR = Path(__file__).resolve().parents[1]
+DATA_DIR = PROJECT_DIR / "data" / "lessons"
+OUTPUT_DIR = PROJECT_DIR / "output" / "lessons" / "file_system"
+TXT_OUTPUT_DIR = OUTPUT_DIR / "txt"
+CSV_OUTPUT_DIR = OUTPUT_DIR / "csv"
+JSON_OUTPUT_DIR = OUTPUT_DIR / "json"
+
+for directory in (TXT_OUTPUT_DIR, CSV_OUTPUT_DIR, JSON_OUTPUT_DIR):
+    directory.mkdir(parents=True, exist_ok=True)
+
+
+file1 = open(TXT_OUTPUT_DIR / "example.txt", "w")
 file1.write("Hello World!\n")
 file1.write("Hello World!\n")
 file1.write("Hello World!\n")
 file1.close() # Запись происходит разом из буфера при закрытии файла.
 
-file2 = open("data/txt/example.txt", "r")
+file2 = open(TXT_OUTPUT_DIR / "example.txt", "r")
 data = file2.read()
 print(data)
 file2.close()
@@ -27,7 +42,7 @@ file2.close()
       # закрытия нет! 
 
 
-f = open("data/txt/example.txt", "r")
+f = open(TXT_OUTPUT_DIR / "example.txt", "r")
 data = f.read() 
 # тут могут возникнуть ошибки, например, деление на ноль или 
 # обращение по несуществующему индексу 
@@ -35,7 +50,7 @@ data = f.read()
 f.close()    
 # этот код уже не выполнится
 
-f = open('data/txt/example.txt', 'r') 
+f = open(TXT_OUTPUT_DIR / 'example.txt', 'r')
 try: 
     data = f.read() 
     # опасный код 
@@ -48,10 +63,10 @@ print("\n\n")
 
 # МАГИЯ WITH: ДВЕРЬ ЗАКРЫВАЕТСЯ САМА 
 # КОНТЕКСТНЫЙ МЕНЕДЖЕР with
-with open('data/txt/data.txt', 'w', encoding='utf-8') as f:
+with open(TXT_OUTPUT_DIR / 'data.txt', 'w', encoding='utf-8') as f:
     f.write("Буба!")
 
-with open('data/txt//data.txt', 'r', encoding="utf-8") as f:
+with open(TXT_OUTPUT_DIR / 'data.txt', 'r', encoding="utf-8") as f:
     data = f.read()
 
 print(data)
@@ -65,13 +80,13 @@ print()
 
 import csv
 
-with open("data/csv/info_user.csv", encoding='UTF-8') as f: 
+with open(DATA_DIR / "csv" / "info_user.csv", encoding='UTF-8') as f:
     reader = csv.reader(f)
     for line in reader:
         print(line)
 print()
 
-with open("data/csv/info_user.csv", encoding='UTF-8') as f: 
+with open(DATA_DIR / "csv" / "info_user.csv", encoding='UTF-8') as f:
     reader = csv.DictReader(f)
     for line in reader:
         print(line)
@@ -84,7 +99,7 @@ new_users = [
 ]
 
 
-with open("data/csv/new_info_users.csv", 'w', encoding='UTF-8', newline='') as f:
+with open(CSV_OUTPUT_DIR / "new_info_users.csv", 'w', encoding='UTF-8', newline='') as f:
     writer = csv.writer(f)
     writer.writerows(new_users)# запись все строки сразу 
     # или writer.writerow(new_users[0]) для одной строки
@@ -96,7 +111,7 @@ users = [
     {'name': 'Елена', 'age': 29, 'city': 'Калининград'} 
 ] 
 
-with open("data/csv/new_info_users2.csv", 'w', encoding='UTF-8', newline='') as f: 
+with open(CSV_OUTPUT_DIR / "new_info_users2.csv", 'w', encoding='UTF-8', newline='') as f:
     fieldnames = users[0].keys()    # порядок колонок 
     writer = csv.DictWriter(f, fieldnames=fieldnames) 
  
@@ -106,8 +121,8 @@ with open("data/csv/new_info_users2.csv", 'w', encoding='UTF-8', newline='') as 
 
 import csv 
 
-with open('data/csv/access.log.csv', 'r', encoding='utf-8') as infile, \
-    open('data/csv/unsuccess.csv', 'w', encoding='utf-8', newline='') as outfile: 
+with open(DATA_DIR / 'csv' / 'access.log.csv', 'r', encoding='utf-8') as infile, \
+    open(CSV_OUTPUT_DIR / 'unsuccess.csv', 'w', encoding='utf-8', newline='') as outfile:
     reader = csv.DictReader(infile) 
     fieldnames = reader.fieldnames   # берём те же заголовки 
 
@@ -134,7 +149,7 @@ JSON - Java Script Object Notation.
 
 import json
 
-with open("data/json/first_example.json", "r", encoding="utf-8") as file:
+with open(DATA_DIR / "json" / "first_example.json", "r", encoding="utf-8") as file:
     data = json.load(file)
     print(data)
 
@@ -152,7 +167,7 @@ person = {
     'is_car': True 
 } 
 
-with open("data/json/first_example2.json", "w", encoding="utf-8") as file:
+with open(JSON_OUTPUT_DIR / "first_example2.json", "w", encoding="utf-8") as file:
     json.dump(person, file, ensure_ascii=False, indent=4)
 print()
 
@@ -164,7 +179,7 @@ from datetime import datetime
 data = {'date': datetime.now()} 
 print(data)
 
-with open("data/json/first_example3.json", "w", encoding="utf-8") as file:
+with open(JSON_OUTPUT_DIR / "first_example3.json", "w", encoding="utf-8") as file:
     json.dump(
         data, 
         file, 
@@ -175,7 +190,7 @@ with open("data/json/first_example3.json", "w", encoding="utf-8") as file:
 print()
 
 
-with open("data/json/books.json", "r", encoding='utf-8') as file:
+with open(DATA_DIR / "json" / "books.json", "r", encoding='utf-8') as file:
     catalog = json.load(file)
     print(catalog)
 
@@ -221,12 +236,9 @@ print(json_string)
 
 
 
-from pathlib import Path
+PATH_FILE = "data/lessons/json/books.json"
 
-
-PATH_FILE = "data/json/books.json"
-
-SOURCE_FILE = Path("data")
+SOURCE_FILE = DATA_DIR
 JSON_DIR = SOURCE_FILE / "json"
 BOOKS_FILE = JSON_DIR / "books.json"
 FOOD_FILE = JSON_DIR / "food.json"
