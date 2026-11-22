@@ -87,7 +87,7 @@ def test_list_and_dict_usage(sample_list, sample_dict):
 
 import os 
 
-@pytest.fixture 
+@pytest.fixture
 def temp_file_fix(): 
     print("\nВыполняется фикстура temp_file_fix: создаю файл.") 
     file_path = "example.txt" 
@@ -148,3 +148,8 @@ class TestOperationDB:
         print("\nТест test_user_view") 
         assert session_db_connection["status"] == "connected" 
         assert module_data_setup["age"] == 25 
+
+
+
+
+
